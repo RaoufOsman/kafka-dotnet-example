@@ -1,0 +1,59 @@
+﻿@page
+@using testapp.producer
+@inject SequentialProducer sequentialProducer;
+
+@model testapp.web.Pages.SequentialModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Sequential Test Page";
+    int messagesSent = 0;
+}
+
+<h1>Sequential Test Page</h1>
+
+<button class="btn btn-primary" id="sendMessage">Send a message to Kafka</button>
+
+<h3>Messages Recieved: </h3>
+<div>
+    <code id="response">
+
+    </code>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    var messagesSent = 0;
+    $(document).ready(async () => {
+
+        const response = await fetch("getMessages", 
+        {
+            method: 'GET', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        var res = await response.json();
+
+        var allRes = JSON.stringify(res, null, '\t');
+        $("#response").append(`<span>${allRes}</span>`);
+
+
+        $("#sendMessage").on("click", async () => {
+            messagesSent++
+            const response = await fetch("sendMessage", 
+            {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(messagesSent)
+            });
+
+            var res = await response.json();
+
+            var jsonPretty = JSON.stringify(res, null, '\t');
+            $("#response").append(`<span>${jsonPretty}</span>`);
+        });
+    });
+</script>

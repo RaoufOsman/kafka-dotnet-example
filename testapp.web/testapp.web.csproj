@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="kafkasettings.properties" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="kafkasettings.properties">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\testapp.consumer\testapp.consumer.csproj" />
+    <ProjectReference Include="..\testapp.db\testapp.db.csproj" />
+    <ProjectReference Include="..\testapp.producer\testapp.producer.csproj" />
+  </ItemGroup>
+
+</Project>
